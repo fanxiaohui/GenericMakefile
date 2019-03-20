@@ -11,6 +11,8 @@ SRC_PATH = .
 LIBS =
 # General compiler flags
 COMPILE_FLAGS = -std=c99 -Wall -Wextra -g
+# Multi thread compiler flags
+LPTHREAD_FLAGS = -lpthread
 # Additional release-specific flags
 RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
@@ -206,7 +208,7 @@ all: $(BIN_PATH)/$(BIN_NAME)
 $(BIN_PATH)/$(BIN_NAME): $(OBJECTS)
 	@echo "Linking: $@"
 	@$(START_TIME)
-	$(CMD_PREFIX)$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+	$(CMD_PREFIX)$(CC) $(OBJECTS) $(LDFLAGS) $(LPTHREAD_FLAGS) -o $@
 	@echo -en "\t Link time: "
 	@$(END_TIME)
 
@@ -219,6 +221,6 @@ $(BIN_PATH)/$(BIN_NAME): $(OBJECTS)
 $(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT)
 	@echo "Compiling: $< -> $@"
 	@$(START_TIME)
-	$(CMD_PREFIX)$(CC) $(CFLAGS) $(INCLUDES) -MP -MMD -c $< -o $@
+	$(CMD_PREFIX)$(CC) $(CFLAGS) $(INCLUDES) $(LPTHREAD_FLAGS) -MP -MMD -c $< -o $@
 	@echo -en "\t Compile time: "
 	@$(END_TIME)
